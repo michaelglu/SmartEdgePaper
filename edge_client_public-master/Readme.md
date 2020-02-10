@@ -1,8 +1,16 @@
 # ARCore Edge Client
 
-This is the android client code used for the experiment.
+## API Overview
 
-## Below is the Raw data from the epxperiments
+- ArActivity.java: initializes the ARFragment, sets up AugmentedImagesDB, contains logic to load and overlay models over image ancors 
+- AssetManager.java: stores the data loaded from server;
+- CustomArFragment.java: extends the default ARCore fragment, used in ARActivity
+- FileLoader.java: used for the experiemts. Loads a file at a specific URL and saves it to the file system
+- ImageStorage.java: contains global method to keep the image bitaps consistent across activities
+- MainActivity.java: contains a button, which when pressed sends a HTTP GET request to the server to get the data. Contains the response handler inner classes that are passed to ServerManager
+- ServerManager.java: contains variables with the server IP and route paths and methods to make the GET requests
+
+## Raw Experiment Data
 
 
 ### Nokia
