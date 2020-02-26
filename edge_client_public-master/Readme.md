@@ -10,6 +10,8 @@
 - MainActivity.java: contains a button, which when pressed sends a HTTP GET request to the server to get the data. Contains the response handler inner classes that are passed to ServerManager
 - ServerManager.java: contains variables with the server IP and route paths and methods to make the GET requests
 
+### More details provided in the commments
+
 ## Raw Experiment Data
 
 
