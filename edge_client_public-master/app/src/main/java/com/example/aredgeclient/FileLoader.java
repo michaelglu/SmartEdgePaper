@@ -12,7 +12,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
-
+/*
+  Used in measiuring load times; stores files in File System
+*/
 public class FileLoader extends AsyncTask<String, String, String> {
     private Context myContext;
     private MainActivity.DownloadListener myListener;
@@ -67,12 +69,12 @@ public class FileLoader extends AsyncTask<String, String, String> {
         }catch(Exception e){ Log.e("FILE LOADER: ", e.getMessage());}
 
         File file = new File(myContext.getFilesDir().toString()
-                + "/DOWNLOAD.sfb");
+                + "/DOWNLOAD.sfb");// !!!!! DOWNLOAD.glb if using GLB !!!!!
 
             Log.d("FILE LOADER","PATH  "+myContext.getFilesDir().toString()
-                + "/DOWNLOAD.sfb");
+                + "/DOWNLOAD.sfb");// !!!!! DOWNLOAD.glb if using GLB !!!!!
         return myContext.getFilesDir().toString()
-                + "/DOWNLOAD.sfb";
+                + "/DOWNLOAD.sfb";// !!!!! DOWNLOAD.glb if using GLB !!!!!
     }
     /**
      * Updating progress bar

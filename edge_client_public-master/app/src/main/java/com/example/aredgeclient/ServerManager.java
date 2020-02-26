@@ -4,9 +4,11 @@ import android.util.Log;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
-
+/*
+* Contains methods for performing GET requests to the server
+*/
 public class ServerManager {
-    public static final String SERVER_ENDPOINT = "http://152.3.52.145";
+    public static final String SERVER_ENDPOINT = "YOUR_SERVER_ENDPOINT";
     public static final String GET_ALL_ROUTE="/getAllImage";
     public static final String GET_MODEL_PATH="/getRenderable";
     private JsonHttpResponseHandler httpResponseHandler;
@@ -17,7 +19,7 @@ public class ServerManager {
 
     public void getImages(){
         AsyncHttpClient client= new AsyncHttpClient();
-        client.addHeader("clientId","5e1e1ace06caed56fac85178");//Heroku 5e1fad47c3b63200174fe1b9  OIT 5e1e1ace06caed56fac85178
+        client.addHeader("clientId","YOUR_CLIENT_ID");
         Log.d("DATA DOWNLOAD STARTED","Time: "+System.nanoTime());
         client.get(SERVER_ENDPOINT+GET_ALL_ROUTE,httpResponseHandler);
     }

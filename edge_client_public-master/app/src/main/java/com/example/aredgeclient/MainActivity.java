@@ -25,7 +25,9 @@ import org.json.JSONObject;
 import java.io.File;
 
 import cz.msebera.android.httpclient.Header;
-
+/*
+* First Activity, responsible for loading the image-model map
+*/
 public class MainActivity extends AppCompatActivity {
 
     private AssetManager assetManager;
@@ -33,8 +35,6 @@ public class MainActivity extends AppCompatActivity {
     private JsonHttpResponseHandler responseHandler;
     private DownloadListener downloadListener,fileLoaderListener;
     private int downloadSize;
-    private static final String GLTF_ASSET =
-            "https://github.com/KhronosGroup/glTF-Sample-Models/raw/master/2.0/Duck/glTF/Duck.gltf";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,7 +65,8 @@ public class MainActivity extends AppCompatActivity {
         fileLoaderListener=new DownloadListener() {
             @Override
             public void onDownloadCompleted() {
-//                serverManager.getImages();
+               // IF you want to record model load times comment out the line below
+               serverManager.getImages();
             }
         };
 
@@ -73,17 +74,17 @@ public class MainActivity extends AppCompatActivity {
         assetManager = new AssetManager(downloadListener);
         responseHandler=setUpResponseHandler(this);
         serverManager= new ServerManager(responseHandler);
-        Button button= findViewById(R.id.downloadButton);// http://edge-storage.herokuapp.com/3dmodels/model_1579471458154_Cybertruck.sfb     http://edge-storage.herokuapp.com/3dmodels/model_1579471494254_Cybertruck.glb
-        button.setOnClickListener((View view)->{//http://152.3.52.145/3dmodels/model_1579455861820_Cybertruck.sfb     http://152.3.52.145/3dmodels/model_1579454160713_Cybertruck.glb
-
-//http://edge-storage.herokuapp.com/3dmodels/model_1579796180678_tower.sfb   http://edge-storage.herokuapp.com/3dmodels/model_1579796531484_tower.glb
-//http://152.3.52.145/3dmodels/model_1579473817752_tower.glb     http://152.3.52.145/3dmodels/model_1579477296627_tower.sfb
-
-//            serverManager.getImages();//http://152.3.52.145/3dmodels/model_1578690423562_Duck.glb     http://152.3.52.145/3dmodels/model_1579031350087_Duck.sfb
-            new FileLoader(MainActivity.this,fileLoaderListener).execute("http://edge-storage.herokuapp.com/3dmodels/model_1579796531484_tower.glb");//http://edge-storage.herokuapp.com/3dmodels/model_1579279788498_Duck.glb
+        Button button= findViewById(R.id.downloadButton);
+          button.setOnClickListener((View view)->{
+          //comment out the line below if don't want to load model to file system
+          new FileLoader(MainActivity.this,fileLoaderListener).execute("YOUR_RENDERABLE_URL");
+          //uncomment line below if don't want to load load to file system
+          // serverManager.getImages();
     });
     }
 
+
+//  Sets up response handlers needed by ServerManager
     public JsonHttpResponseHandler setUpResponseHandler(Context context){
         JsonHttpResponseHandler handler= new JsonHttpResponseHandler(){
             @Override
@@ -91,7 +92,6 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("SERVER","Success:"+response.toString());
                 try{
                     assetManager.addRenderable(response.getString("id"),response.getString("filePath"));
-                    // downloadRenderable(response.getString("id"));
                 } catch (JSONException e) {
                     Log.e("JSON","ERROR PARSING JSON BODY: "+e.getMessage());
                 }
@@ -118,28 +118,6 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         return  handler;
-    }
-    private void downloadRenderable(String key){
-        ModelRenderable.builder()
-                .setSource(this, RenderableSource.builder().setSource(
-                        this,
-                        Uri.parse(GLTF_ASSET),
-                        RenderableSource.SourceType.GLTF2)
-                        .setScale(0.2f)  // Scale the original model to 50%.
-                        .setRecenterMode(RenderableSource.RecenterMode.ROOT)
-                        .build())
-                .setRegistryId(GLTF_ASSET)
-                .build()
-                .thenAccept(renderable -> {assetManager.addModelRenderable(key,renderable);})
-                .exceptionally(
-                        throwable -> {
-                            Toast toast =
-                                    Toast.makeText(this, "Unable to load renderable " +
-                                            GLTF_ASSET, Toast.LENGTH_LONG);
-                            toast.setGravity(Gravity.CENTER, 0, 0);
-                            toast.show();
-                            return null;
-                        });
     }
 
     public interface DownloadListener{

@@ -31,13 +31,15 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
+/*
+  AR activity with Augmented Images Experience
+*/
 public class ArActivity extends AppCompatActivity {
     private CustomArFragment arFragment;
     private Map<String, Bitmap>imageMap;
     private Set<String>placedImageSet;
     private Map<String,String>renderableIdMap,renderablePathMap;
-    private static final String GLTF_ASSET =
+    private static final String GLTF_ASSET = /*if need to test loading without server use this URL*/
             "https://github.com/KhronosGroup/glTF-Sample-Models/raw/master/2.0/Duck/glTF/Duck.gltf";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,13 +81,12 @@ public class ArActivity extends AppCompatActivity {
             {
                 if(imageMap.containsKey(image.getName())&&!placedImageSet.contains(image.getName())){
                     Log.d("FOUND IMAGE","FOUND IMAGE");
-//                    File file = new File(ArActivity.this.getFilesDir().toString()
-//                            + "/DOWNLOAD.glb");
-//                    Log.d("AR ACTIVITY FILE",""+ArActivity.this.getFilesDir().toString()
-//                            + "/DOWNLOAD.glb"+file.exists());
+                    // Comment out if don't want to test FileSystem load times
                     placeObject(arFragment,image.createAnchor(image.getCenterPose()), Uri.parse(ArActivity.this.getFilesDir().toString()
-                            + "/DOWNLOAD.glb"));
-//                    placeObject(arFragment,image.createAnchor(image.getCenterPose()), Uri.parse("Duck.sfb"));
+                            + "/DOWNLOAD.glb"));// replace with DOWNLOAD.sfb if testing sfb loading
+                    // Uncomment if don't want to test FileSystem load times
+                    /*placeObject(arFragment,image.createAnchor(image.getCenterPose()), Uri.parse(renderablePathMap.get(renderableIdMap.get(image.getName()))));
+                          placedImageSet.add(image.getName());*/
                     placedImageSet.add(image.getName());
                 }
             }
@@ -95,6 +96,7 @@ public class ArActivity extends AppCompatActivity {
 
     private void placeObject(ArFragment fragment, Anchor anchor, Uri model){
         Log.d("MODEL DOWNLOAD STARTED","Time: "+System.nanoTime());
+        // Comment out if NOT loading GLB
         ModelRenderable.builder()
                 .setSource(this, RenderableSource.builder().setSource(this,model,
                         RenderableSource.SourceType.GLB).setScale(0.02f).build()).setRegistryId(model).build()
@@ -108,6 +110,7 @@ public class ArActivity extends AppCompatActivity {
                             toast.show();
                             return null;
                         });
+//        Comment out if NOT using SFB          
 //        ModelRenderable.builder().setSource(fragment.getContext(),model).build()
 //                .thenAccept(renderable ->{
 //                    Log.d("MODEL DOWNLOAD DONE","Time: "+System.nanoTime());

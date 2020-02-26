@@ -14,7 +14,9 @@ import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import java.util.HashMap;
 import java.util.Map;
-
+/*
+  Responsible for storing Images, Renderables and their mappings 
+*/
 public class AssetManager {
     private Map<String, Bitmap> imageMap;
     private Map<String, String> renderableIdMap;
