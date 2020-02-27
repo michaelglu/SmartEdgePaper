@@ -26,3 +26,37 @@
           - get.js: contains functions to get user's info based on a token, and to get public information about each user
           - post.js: contains function for creating a new user
           - put.js: contains a login function
+## Program Flow
+### Designed Flow
+1. register/log in the user (see creating/managing users)
+2. upload all images (see creating/managing images)
+3. load all images associated with the userid (see creating/managing renderables)
+4. for each image upload renderable(s)
+### Creating/Managing users:
+ - /users/register:
+   - Body: {email,password, title, description}
+   - returns: authtoken (**authtoken only valid for 1 hour after creation**)
+ - /users/login: 
+   - Body: {email,password}
+   - returns: authtoken
+ - /users/get:
+    - Headers: authtoken
+    - returns: user info {title,descrition,id}
+### Creating/Managing Images
+ - /uploadimage
+   - Headers: authtoken
+  - Body: JPG image
+   - returns: image id
+ - /deleteimage
+   - Headers: imageId
+  ### Creating/Managing Renderables
+  - /getAllImage
+     - Headers: clientId
+     - returns array [{id, filePath, renderableId, userId}] id=**imageid**
+  - uploadModel:
+      - Headers: renderableId, authtoken, modelKey(weather script enabled by default and takes Clear-Light, Clear-Dark, Rain-Light, Rain-Dark)
+      - Body: GLB or SFB model 
+      - returns: RenderableURL
+  - /deleteRenderabl
+     - Headers: id(imageId), key(modelKey)
+ 
